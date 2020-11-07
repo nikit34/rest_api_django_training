@@ -3,4 +3,4 @@ from rest_framework import routers
 
 
 router = routers.DefaultRouter()
-router.register('snippets', SnippetViewSet)
+router.register('snippets', SnippetViewSet, basename='snippet')
