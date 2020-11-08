@@ -5,31 +5,31 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 
-from .serializers import SnippetSerializer
-from snippets.models import Snippet
+from .serializers import AuthorSerializer
+from authors.models import Author
 
 
-class SnippetFilter(filters.FilterSet):
+class AuthorFilter(filters.FilterSet):
     class Meta:
-        model = Snippet
+        model = Author
         fields = {
-            'title': ['icontains'],
-            'created': ['iexact', 'lte', 'gte']
+            'full_name': ['icontains'],
+            'born': ['iexact', 'lte', 'gte'],
         }
 
 
-class SnippetViewSet(viewsets.ModelViewSet):
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
+class AuthorViewSet(viewsets.ModelViewSet):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    filterset_class = SnippetFilter
+    filterset_class = AuthorFilter
 
     @action(methods=['get'], detail=False)
     def newest(self, request):
-        newest = self.get_queryset().order_by('created').last()
+        newest = self.get_queryset().order_by('timestamp').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)
 
     def get_queryset(self):
-        return Snippet.objects.filter(title__icontains='h1')
+        return Author.objects.filter(full_name__icontains='h1')

@@ -5,31 +5,31 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as filters
 
-from .serializers import SnippetSerializer
-from snippets.models import Snippet
+from .serializers import TagSerializer
+from tags.models import Tag
 
 
-class SnippetFilter(filters.FilterSet):
+class TagFilter(filters.FilterSet):
     class Meta:
-        model = Snippet
+        model = Tag
         fields = {
             'title': ['icontains'],
-            'created': ['iexact', 'lte', 'gte']
+            'timestamp': ['iexact', 'lte', 'gte']
         }
 
 
-class SnippetViewSet(viewsets.ModelViewSet):
-    queryset = Snippet.objects.all()
-    serializer_class = SnippetSerializer
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    filterset_class = SnippetFilter
+    filterset_class = TagFilter
 
     @action(methods=['get'], detail=False)
     def newest(self, request):
-        newest = self.get_queryset().order_by('created').last()
+        newest = self.get_queryset().order_by('timestamp').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)
 
     def get_queryset(self):
-        return Snippet.objects.filter(title__icontains='h1')
+        return Tag.objects.filter(title__icontains='h1')
