@@ -10,7 +10,6 @@ from .serializers import SnippetSerializer
 
 
 class SnippetFilter(filters.FilterSet):
-
     class Meta:
         model = Snippet
         fields = {

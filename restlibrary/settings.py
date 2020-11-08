@@ -27,10 +27,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'snippets',
+    
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
     'oauth2_provider',
+
+    'books',
+    'authors',
+    'tags',
 ]
 
 MIDDLEWARE = [

@@ -1,5 +1,6 @@
-from snippets.api.viewsets import SnippetViewSet
 from rest_framework import routers
+
+from snippets.api.viewsets import SnippetViewSet
 
 
 router = routers.DefaultRouter()
