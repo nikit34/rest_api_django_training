@@ -30,6 +30,3 @@ class BookViewSet(viewsets.ModelViewSet):
         newest = self.get_queryset().order_by('created').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)
-
-    def get_queryset(self):
-        return Book.objects.filter(title__icontains='h1')

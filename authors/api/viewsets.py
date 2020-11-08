@@ -19,10 +19,10 @@ class AuthorFilter(filters.FilterSet):
 
 
 class AuthorViewSet(viewsets.ModelViewSet):
-    queryset = Author.objects.all()
+    queryset = Author.objects.filter(id='1')
     serializer_class = AuthorSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     filterset_class = AuthorFilter
 
     @action(methods=['get'], detail=False)
@@ -32,4 +32,4 @@ class AuthorViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def get_queryset(self):
-        return Author.objects.filter(full_name__icontains='h1')
+        return Author.objects.all()

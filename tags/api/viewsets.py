@@ -30,6 +30,3 @@ class TagViewSet(viewsets.ModelViewSet):
         newest = self.get_queryset().order_by('timestamp').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)
-
-    def get_queryset(self):
-        return Tag.objects.filter(title__icontains='h1')
