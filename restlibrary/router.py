@@ -1,8 +1,7 @@
-from django.urls import path, include
-from rest_framework import urlpatterns
 from rest_framework_nested import routers
+from django.conf.urls import include
+from django.urls import path
 
-from snippets.api.viewsets import SnippetViewSet
 from authors.api.viewsets import AuthorViewSet
 from books.api.viewsets import BookViewSet
 from tags.api.viewsets import TagViewSet
@@ -17,9 +16,8 @@ authors_router.register('books', BookViewSet)
 books_router = routers.NestedSimpleRouter(authors_router, 'books', lookup='book')
 books_router.register('tags', TagViewSet)
 
-
 urlpatterns = [
-    path('authors', base_router.urls),
-    path('books', authors_router.urls),
-    path('tags', books_router.urls),
+    path(r'', include(base_router.urls)),
+    path(r'', include(authors_router.urls)),
+    path(r'', include(books_router.urls)),
 ]
