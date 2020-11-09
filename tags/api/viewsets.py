@@ -14,7 +14,6 @@ class TagFilter(filters.FilterSet):
         model = Tag
         fields = {
             'title': ['icontains'],
-            'timestamp': ['iexact', 'lte', 'gte']
         }
 
 
@@ -22,11 +21,12 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     filterset_class = TagFilter
+    lookup_field = 'title'
 
     @action(methods=['get'], detail=False)
     def newest(self, request):
-        newest = self.get_queryset().order_by('timestamp').last()
+        newest = self.get_queryset().order_by('title').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)

@@ -22,11 +22,13 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     filterset_class = BookFilter
+    lookup_field = 'title'
 
     @action(methods=['get'], detail=False)
     def newest(self, request):
         newest = self.get_queryset().order_by('created').last()
         serializer = self.get_serializer_class()(newest)
         return Response(serializer.data)
+

@@ -6,4 +6,4 @@ from tags.models import Tag
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Tag
-        fields = ('title', 'timestamp', 'active', 'products')
+        fields = '__all__'
